@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			#container {
+				height: 90%;
+				width: 100%;
+			}
+			#container2 {
+				height: 10%;
+				width: 100%
+			}
+		</style>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=0551bf6b43c89c5e7d42dcc448ad3f27&v=1.0"></script>
+		<script type="text/javascript" charset="utf-8">
+			function geoInf(position) {
+				var str = "";
+				var codns = position.coords; //获取地理坐标信息；
+				var lat = codns.latitude; //获取到当前位置的经度；
+				str += "经度：" + lat + "<br/>";
+				var longt = codns.longitude; //获取到当前位置的纬度
+				str += "纬度：" + longt + "<br/>";
+				document.getElementById("container2").innerText = str
+			}
+			
+			
+				function sh(map,mark) {
+					map.removeOverlay(mark)
+				
+			}
+
+			function readyd() {
+
+				plus.geolocation.getCurrentPosition(function(position) {
+
+					var str = "";
+					var codns = position.coords; //获取地理坐标信息；
+					var lat = codns.latitude; //获取到当前位置的经度；
+					str += "经度：" + lat + "<br/>";
+					var longt = codns.longitude; //获取到当前位置的纬度
+					str += "纬度：" + longt + "<br/>";
+					document.getElementById("container2").innerText = str
+					var map = new BMap.Map("container");
+					map.centerAndZoom(new BMap.Point(Number(longt), Number(lat)), 14);
+					var scaleControl=new BMap.ScaleControl();  
+map.addControl(scaleControl);//添加比例尺控件
+
+var marker1 = new BMap.Marker(new BMap.Point(Number(longt), Number(lat)));  //创建标注
+	map.addOverlay(marker1);                 // 将标注添加到地图中
+	//创建信息窗口
+	var infoWindow1 = new BMap.InfoWindow("普通标注");
+	marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
+	
+	
+	
+	map.addEventListener("click", function(e){
+		alert(e.point.lng + ", " + e.point.lat);
+	});
+	
+	document.getElementById("container2").addEventListener("click", function(){setTimeout(sh(map,marker1),20000);});
+
+				}, function(e) {
+
+				}, {
+					provider: 'baidu'
+				});
+
+
+			}
+		</script>
+
+
+	</head>
+
+	<body>
+		<div id="container" onclick="readyd()">zzzzzz</div>
+
+		<div id="container2">ss1</div>
+	</body>
+
+</html>
